@@ -1,53 +1,25 @@
 provider "google" {
-  project     = var.gcp_project
-  region      = var.gcp_region
-  
+  project     = "bilvantisaimlproject"  # Replace with your GCP project ID
+  region      = "asia-south1"
+  zone        = "asia-south1-a"
 }
 
-resource "google_compute_instance" "default" {
-  name         = "terraform-vm"
-  machine_type = var.machine_type
-  zone         = var.gcp_zone
-
+resource "google_compute_instance" "simple_vm" {
+  name         = "simple-vm"
+  machine_type = "e2-medium"
+  
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2204-lts" 
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
     }
   }
+
   network_interface {
     network = "default"
-    access_config {
-      // Ephemeral public IP
-    }
+    access_config {}  # This gives the VM a temporary public IP
   }
 }
 
-variable "gcp_project" {
-  description = "GCP Project ID"
-  type        = string
-  default     = "bilvantisaimlproject"
+output "vm_public_ip" {
+  value = google_compute_instance.simple_vm.network_interface[0].access_config[0].nat_ip
 }
-
-variable "gcp_region" {
-  description = "GCP Region"
-  type        = string
-  default     = "asia-south1"
-}
-
-variable "gcp_zone" {
-  description = "GCP Zone"
-  type        = string
-  default     = "asia-south1-a"
-}
-
-variable "machine_type" {
-  description = "Machine type"
-  type        = string
-  default     = "e2-medium"
-}
-
-variable "gcp_credentials" {
-  description = "Path to GCP credentials file"
-  type        = string
-}
-
