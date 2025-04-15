@@ -6,35 +6,24 @@ provider "google" {
 }
 
 variable "SERVICE_ACCOUNT_KEY" {
-  description = "GCP service account key JSON"
+  description = "GCP service account key JSON content"
   type        = string
   sensitive   = true
 }
 
-variable "GCP_PROJECT_ID"{
-    type = string
-    default = "bilvantisaimlproject"
-}
-
-
-
 resource "google_compute_instance" "vm_instance" {
-  name         = "nithin-free-tier-vm"         
-  machine_type = "f1-micro"                
-  project      = var.GCP_PROJECT_ID                
+  name         = "nithin-free-tier-vm"
+  machine_type = "f1-micro"
+  project      = "bilvantisaimlproject"
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"    
+      image = "debian-cloud/debian-11"
     }
   }
 
   network_interface {
-    network = "default"                     
-
-    access_config {                         
-      // Ephemeral IP
-    }
+    network = "default"
+    access_config {}
   }
 }
- 
