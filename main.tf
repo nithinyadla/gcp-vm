@@ -2,8 +2,7 @@ provider "google" {
   project     = "bilvantisaimlproject"
   region      = "asia-south1"
   zone        = "asia-south1-a"
-  credentials = file("service_account_key.json")  # Add this line
-}
+  credentials = $SERVICE_ACCOUNT_KEY
 
 resource "google_compute_instance" "simple_vm" {
   name         = "simple-vm"
