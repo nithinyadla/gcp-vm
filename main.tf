@@ -1,25 +1,33 @@
 provider "google" {
-  project     = "bilvantisaimlproject"
+  credentials = $SERVICE_ACCOUNT_KEY
   region      = "asia-south1"
   zone        = "asia-south1-a"
-  credentials = $SERVICE_ACCOUNT_KEY
+}
 
-resource "google_compute_instance" "simple_vm" {
-  name         = "simple-vm"
-  machine_type = "e2-medium"
-  
+variable "GCP_PROJECT_ID"{
+    type = string
+    default = "bilvantisaimlproject"
+}
+
+
+
+resource "google_compute_instance" "vm_instance" {
+  name         = "nithin-free-tier-vm"         
+  machine_type = "f1-micro"                
+  project      = var.GCP_PROJECT_ID                
+
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+      image = "debian-cloud/debian-11"    
     }
   }
 
   network_interface {
-    network = "default"
-    access_config {}  # This gives the VM a temporary public IP
+    network = "default"                     
+
+    access_config {                         
+      // Ephemeral IP
+    }
   }
 }
-
-output "vm_public_ip" {
-  value = google_compute_instance.simple_vm.network_interface[0].access_config[0].nat_ip
-}
+ 
