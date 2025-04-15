@@ -1,7 +1,7 @@
 provider "google" {
   project     = var.gcp_project
   region      = var.gcp_region
-  credentials = file(var.gcp_credentials)
+  
 }
 
 resource "google_compute_instance" "default" {
@@ -51,6 +51,3 @@ variable "gcp_credentials" {
   type        = string
 }
 
-output "instance_ip" {
-  value = google_compute_instance.default.network_interface[0].access_config[0].nat_ip
-}
