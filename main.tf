@@ -1,7 +1,14 @@
 provider "google" {
-  credentials = $SERVICE_ACCOUNT_KEY
+  project     = "bilvantisaimlproject"
   region      = "asia-south1"
   zone        = "asia-south1-a"
+  credentials = var.SERVICE_ACCOUNT_KEY
+}
+
+variable "SERVICE_ACCOUNT_KEY" {
+  description = "GCP service account key JSON"
+  type        = string
+  sensitive   = true
 }
 
 variable "GCP_PROJECT_ID"{
