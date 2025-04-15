@@ -1,10 +1,15 @@
+variable "SERVICE_ACCOUNT_KEY" {
+  description = "GCP service account key JSON content"
+  type        = string
+  sensitive   = true
+}
+
 provider "google" {
   project     = "bilvantisaimlproject"
   region      = "asia-south1"
   zone        = "asia-south1-a"
   credentials = var.SERVICE_ACCOUNT_KEY
 }
-
 
 resource "google_compute_instance" "vm_instance" {
   name         = "nithin-free-tier-vm"
