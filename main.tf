@@ -1,7 +1,8 @@
 provider "google" {
-  project     = "bilvantisaimlproject"  # Replace with your GCP project ID
+  project     = "bilvantisaimlproject"
   region      = "asia-south1"
   zone        = "asia-south1-a"
+  credentials = file("service-account-key.json")  # Add this line
 }
 
 resource "google_compute_instance" "simple_vm" {
